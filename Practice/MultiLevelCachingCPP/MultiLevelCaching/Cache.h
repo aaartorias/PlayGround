@@ -11,7 +11,8 @@ using namespace std;
 // Cache - LRU eviction policy
 // Other classes extending Cache class can either use the same 
 // eviction algorithm or they can implement their own cache eviction algorithm
-// If eviction policies across all Caches were same, we would create sa
+// If eviction policies across all Caches were same, we would create multiple objects of same class 
+// and wrap them with each other in the order l2 wraps l3 and then l1 wraps l2
 
 class Cache {
 
