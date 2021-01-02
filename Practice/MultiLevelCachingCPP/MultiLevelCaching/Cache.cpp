@@ -7,7 +7,8 @@
 #include <string>
 using namespace std;
 
-Cache::Cache(int capacity, int readTime, int writeTime, Cache* nextLevel = nullptr) {
+
+Cache::Cache(int capacity, int readTime, int writeTime, Cache* nextLevel) {
 
     this->capacity = capacity;
     this->readTime = readTime;
@@ -60,13 +61,13 @@ void Cache::updateRecentlyAccessed(list<pair<string, string>>::iterator node) {
     lst.splice(lst.begin(), lst, node);
 }
 
-string Cache::readKey(string key) {
-
+string Cache::readKey(string key, int& time) {
+    time += this->readTime;
     if (map.find(key) == map.end()) {
 
         string value;
         if (nextLevel) {
-            value = nextLevel->readKey(key);
+            value = nextLevel->readKey(key, time);
         }
         else {
             return "";
@@ -75,6 +76,7 @@ string Cache::readKey(string key) {
             return "";
         }
         else {
+            time += this->writeTime;
             insertInCache(key, value);
             return value;
         }
@@ -85,7 +87,8 @@ string Cache::readKey(string key) {
     }
 }
 
-void Cache::writeKey(string key, string value) {
+void Cache::writeKey(string key, string value, int& time) {
+    time += this->readTime;
     if (map.find(key) == map.end()) {
         insertInCache(key,value);
     }
@@ -99,55 +102,32 @@ void Cache::writeKey(string key, string value) {
         // not sure if this is a requirement
         // updateRecentlyAccessed(map[key]);
     }
-
+    time += this->writeTime;
     if (nextLevel) {
-        nextLevel->writeKey(key, value);
+        nextLevel->writeKey(key, value, time);
     }
 }
 
-void convertInputSringToVector(const string& input, vector<int>& result) {
-
-    istringstream iss(input);
-    string element;
-    for (element; iss >> element;) {
-        result.push_back(stoi(element));
-    }
-
-}
-
-void display(const vector<int>& result) {
-
-    for (auto element : result) {
-        cout << element << " -- ";
+void Cache::printCacheContents() {
+    cout << typeid(this).name() << " : ";
+    for (auto node : lst) {
+        cout << node.first << ":"<< node.second << "  ";
     }
     cout << endl;
+    if (nextLevel) {
+        nextLevel->printCacheContents();
+    }
 }
 
-int main() {
-
-    int numberOfCache;
-    string capacityString;
-    string readTimeString;
-    string writeTimeString;
-    vector<int> capacity;
-    vector<int> readTime;
-    vector<int> writeTime;
-
-
-    cin >> numberOfCache;
-    cin.ignore();
-    getline(cin, capacityString);
-    getline(cin, readTimeString);
-    getline(cin, writeTimeString);
-
-    convertInputSringToVector(capacityString, capacity);
-    convertInputSringToVector(readTimeString, readTime);
-    convertInputSringToVector(writeTimeString, writeTime);
-
-    display(capacity);
-    display(readTime);
-    display(writeTime);
-
-    return 0;
+float Cache::getCurrentUsage() {
+    return ((float)lst.size() / (float)capacity);
 }
 
+void Cache::printCacheUsage() {
+    float usage = getCurrentUsage();
+    cout << usage;
+    if (nextLevel) {
+        cout << " / ";
+        nextLevel->printCacheUsage();
+    }
+}

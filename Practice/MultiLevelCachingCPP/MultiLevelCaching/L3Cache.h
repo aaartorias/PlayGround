@@ -10,12 +10,17 @@ using namespace std;
 
 class L3Cache: public Cache
 {
+
+public:
+
     L3Cache(int capacity, int readTime, int writeTime, Cache* nextLevel = nullptr);
 
-    void virtual insertInCache(string key, string value);
+    // TODO: Levearge these functions to create new eviction policy
 
-    string virtual readKey(string key);
+    //void virtual insertInCache(string key, string value);
 
-    void virtual writeKey(string key, string value);
+    //string virtual readKey(string key);
+
+    //void virtual writeKey(string key, string value);
 };
 

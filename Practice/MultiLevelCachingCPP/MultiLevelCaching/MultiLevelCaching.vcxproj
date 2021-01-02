@@ -139,7 +139,19 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Cache.cpp" />
+    <ClCompile Include="L1Cache.cpp" />
+    <ClCompile Include="L2Cache.cpp" />
+    <ClCompile Include="L3Cache.cpp" />
+    <ClCompile Include="MultiLevelCache.cpp" />
     <ClCompile Include="Source.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Cache.h" />
+    <ClInclude Include="L1Cache.h" />
+    <ClInclude Include="L2Cache.h" />
+    <ClInclude Include="L3Cache.h" />
+    <ClInclude Include="MultiLevelCache.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

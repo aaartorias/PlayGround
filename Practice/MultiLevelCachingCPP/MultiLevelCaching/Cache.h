@@ -11,6 +11,7 @@ using namespace std;
 // Cache - LRU eviction policy
 // Other classes extending Cache class can either use the same 
 // eviction algorithm or they can implement their own cache eviction algorithm
+// If eviction policies across all Caches were same, we would create sa
 
 class Cache {
 
@@ -21,11 +22,12 @@ protected:
     int capacity;
     int readTime;
     int writeTime;
-    Cache* nextLevel; ;
+    Cache* nextLevel;
 
 public:
 
-    Cache(int capacity, int readTime, int writeTime, Cache* nextLevel = nullptr);
+
+    Cache(int capacity=0, int readTime=0, int writeTime = 0, Cache* nextLevel = nullptr);
 
     void virtual insertInCache(string key, string value);
 
@@ -39,7 +41,14 @@ public:
 
     void updateRecentlyAccessed(list<pair<string, string>>::iterator node);
 
-    string virtual readKey(string key);
+    string virtual readKey(string key, int& time);
 
-    void virtual writeKey(string key, string value);
+    void virtual writeKey(string key, string value, int& time);
+
+    void printCacheContents();
+
+    void printCacheUsage();
+
+    float getCurrentUsage();
+
 };

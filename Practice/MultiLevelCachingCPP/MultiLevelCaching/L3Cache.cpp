@@ -1,6 +1,6 @@
 #include "L3Cache.h"
 
-L3Cache::L3Cache(int capacity, int readTime, int writeTime, Cache* nextLevel = nullptr) {
+L3Cache::L3Cache(int capacity, int readTime, int writeTime, Cache* nextLevel) {
 
     this->capacity = capacity;
     this->readTime = readTime;
